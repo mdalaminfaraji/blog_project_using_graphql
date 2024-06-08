@@ -4,6 +4,7 @@ type Query {
     me:User
     users:[User]
     posts:[Post]
+    profile(userId: ID!): Profile
 }
 
 type Mutation{
@@ -15,13 +16,16 @@ type Mutation{
     signIn(
         email:String!
         password:String!
-    ):AuthPayload
+    ):AuthPayload,
+
+
+    addPost(post: PostInput!): PostPayload,
+        updatePost(postId: ID!, post: PostInput!): PostPayload,
+        deletePost(postId: ID!): PostPayload,
+        publishPost(postId: ID!): PostPayload
 }
 
-type AuthPayload{
-    userError:String
-    token:String
-}
+
  type Post {
     id:ID!
     title:String!
@@ -44,4 +48,19 @@ type AuthPayload{
     createdAt:String!
     user:User!
  }
+
+ type PostPayload{
+    userError:String
+    post:Post
+}
+
+input PostInput {
+        title: String
+        content: String
+    }
+
+type AuthPayload{
+    userError:String
+    token:String
+}
 `;
